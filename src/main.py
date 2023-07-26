@@ -18,7 +18,9 @@ openai.api_key  = os.environ['OPENAI_API_KEY']
 def main():
     args = parser.parse_args()
     config = vars(args)
-    doc_loader = DocumentLoader(config["type"], config['source'])
+    docs = DocumentLoader(config["type"], config['source'])
+    docs.load_docs()
+    docs.split_documents()
 
 if __name__ == '__main__':
     main()
