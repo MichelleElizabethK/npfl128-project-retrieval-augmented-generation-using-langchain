@@ -1,9 +1,6 @@
-from langchain.document_loaders import PyPDFLoader
-from langchain.document_loaders.generic import GenericLoader
-from langchain.document_loaders.parsers import OpenAIWhisperParser
-from langchain.document_loaders.blob_loaders.youtube_audio import YoutubeAudioLoader
+from langchain.document_loaders import PyPDFLoader, YoutubeLoader
 from langchain.document_loaders import WebBaseLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter, CharacterTextSplitter
+from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 class DocumentLoader:
     doc_type = None
@@ -11,8 +8,6 @@ class DocumentLoader:
     source = None
     docs = None
     split_docs = []
-    chunk_size = 26
-    chunk_overlap = 4
     
     def __init__(self, doc_type: str, source: str) -> None:
         """
@@ -26,13 +21,11 @@ class DocumentLoader:
         if self.doc_type == 'pdf':
             self.doc_loader = PyPDFLoader(source)
         elif self.doc_type == 'youtube':
-            save_dir="docs/youtube/"
-            self.doc_loader = GenericLoader(
-                YoutubeAudioLoader([source],save_dir),
-                OpenAIWhisperParser()
-            )
+            self.doc_loader = YoutubeLoader.from_youtube_url("https://www.youtube.com/watch?v="+source)
         elif self.doc_type == 'url':
             self.doc_loader = WebBaseLoader(source)
+        self.load_docs()
+        self.split_documents()
     
     def load_docs(self) -> None:
         """

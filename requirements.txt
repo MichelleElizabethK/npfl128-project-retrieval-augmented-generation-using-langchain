@@ -3,3 +3,9 @@ openai
 python-dotenv
 pypdf
 bs4
+chromadb
+tiktoken
+sentence_transformers
+huggingface_hub
+gpt4all
+youtube-transcript-api
