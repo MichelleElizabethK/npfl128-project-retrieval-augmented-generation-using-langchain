@@ -3,11 +3,6 @@ from langchain.document_loaders import WebBaseLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 class DocumentLoader:
-    doc_type = None
-    doc_loader = None
-    source = None
-    docs = None
-    split_docs = []
     
     def __init__(self, doc_type: str, source: str) -> None:
         """
@@ -24,6 +19,7 @@ class DocumentLoader:
             self.doc_loader = YoutubeLoader.from_youtube_url("https://www.youtube.com/watch?v="+source)
         elif self.doc_type == 'url':
             self.doc_loader = WebBaseLoader(source)
+
         self.load_docs()
         self.split_documents()
     
