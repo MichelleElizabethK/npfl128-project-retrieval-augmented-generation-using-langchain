@@ -4,14 +4,15 @@ from document_loader import DocumentLoader
 from vector_stores_and_embeddings import VectorStore
 from retrieval_chain import RetrievalChain, ConversationalRetrievalQAChain
 
-parser = argparse.ArgumentParser(description="Command Line Arguments for the Retrival Augmented Generation System",
-                                    formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-parser.add_argument("--type", help="type of the source", default="pdf", choices=["pdf", "youtube", "url"], type=str, required=True)
-parser.add_argument("--source", help="Source of the information. For youtube videos, provide only the id. For others, provide the full path.", type=str, required=True)
-parser.add_argument("--mode", help="Either chat with the data or simply retrieve information", default="chat", choices=["chat", "retrieve"], type=str)
-
 
 def main():
+
+    parser = argparse.ArgumentParser(description="Command Line Arguments for the Retrival Augmented Generation System",
+                                        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument("--type", help="type of the source", default="pdf", choices=["pdf", "youtube", "url"], type=str, required=True)
+    parser.add_argument("--source", help="Source of the information. For youtube videos, provide only the id. For others, provide the full path.", type=str, required=True)
+    parser.add_argument("--mode", help="Either chat with the data or simply retrieve information", default="chat", choices=["chat", "retrieve"], type=str)
+
     args = parser.parse_args()
     config = vars(args)
     # Load the source of data
