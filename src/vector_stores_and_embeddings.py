@@ -38,18 +38,18 @@ class VectorStore:
             base_retriever=self.vectordb.as_retriever(search_type = "mmr")
         )
 
-    def retrieve_relevant_docs(self, question: str):
+    def retrieve_relevant_docs(self, question: str) -> list:
         """Use the compression retriever to extract documents relevant to the query
 
         Args:
             question (str): the query for the search
 
         Returns:
-            The relevant documents
+            The list of relevant documents
         """
         return self.compression_retriever.get_relevant_documents(question)
     
-    def retrieve_docs_similarity_search(self, question: str):
+    def retrieve_docs_similarity_search(self, question: str) -> list:
         """Use the similarity search to search for documents from the vector db
            based on the question
 
@@ -57,6 +57,6 @@ class VectorStore:
             question (str): the query for the search
 
         Returns:
-            The relevant documents
+            The list of relevant documents
         """
         return self.vectordb.similarity_search(question)

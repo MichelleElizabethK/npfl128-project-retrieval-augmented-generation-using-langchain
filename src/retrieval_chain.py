@@ -32,7 +32,7 @@ class RetrievalChain:
         )
 
 
-    def get_response(self, query: str) -> dict:
+    def get_response(self, query: str) -> dict[str, list]:
         """Use the question answering chain to feed in questions and get a response
 
         Args:
@@ -84,7 +84,7 @@ class ConversationalRetrievalQAChain:
         )
 
     
-    def get_response(self, question: str) -> dict:
+    def get_response(self, question: str) -> dict[str, list]:
         """Use the question answering chain to feed in questions and get a response
 
         Args:
