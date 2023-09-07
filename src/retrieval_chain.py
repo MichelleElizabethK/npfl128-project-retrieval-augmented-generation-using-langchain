@@ -3,9 +3,10 @@ from langchain.prompts import PromptTemplate
 from langchain.memory import ConversationBufferMemory
 from langchain.chat_models import ChatOpenAI
 
-llm = ChatOpenAI(model_name='gpt-3.5-turbo', temperature=0)
 
 class RetrievalChain:
+
+    llm = ChatOpenAI(model_name='gpt-3.5-turbo', temperature=0)
 
     #  create a custom template to control how the LLM responds to queries
     template = """Use the following pieces of context to answer the question at the end.
@@ -25,7 +26,7 @@ class RetrievalChain:
             vectordb : the index created from the documents
         """
         self.retrieval_qa_chain = RetrievalQA.from_chain_type(
-            llm,
+            self.llm,
             retriever=vectordb.as_retriever(),
             return_source_documents=True,
             chain_type_kwargs={"prompt": self.prompt},
@@ -50,6 +51,8 @@ class RetrievalChain:
 
     
 class ConversationalRetrievalQAChain:
+
+    llm = ChatOpenAI(model_name='gpt-3.5-turbo', temperature=0)
 
     # initialise a conversation buffer memory to keep track of the chat
     memory = ConversationBufferMemory(
@@ -79,7 +82,7 @@ class ConversationalRetrievalQAChain:
 
         # initialise the conversational retrieval chain with memory with custom prompt
         self.conv_qa_chain = ConversationalRetrievalChain.from_llm(
-            llm=llm, retriever=vectordb.as_retriever(), memory=self.memory, 
+            llm=self.llm, retriever=vectordb.as_retriever(), memory=self.memory, 
             return_source_documents=True, combine_docs_chain_kwargs={'prompt': prompt}
         )
 

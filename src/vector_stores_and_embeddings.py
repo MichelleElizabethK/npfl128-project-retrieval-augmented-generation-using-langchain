@@ -8,9 +8,10 @@ import chromadb
 import os
 import openai
 
-openai.api_key = os.environ["OPENAI_API_KEY"]
 
 class VectorStore:
+
+    openai.api_key = os.environ["OPENAI_API_KEY"]
 
     embedding = OpenAIEmbeddings()
     llm = OpenAI(temperature=0)
