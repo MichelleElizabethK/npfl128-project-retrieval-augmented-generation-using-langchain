@@ -7,11 +7,13 @@ from langchain.embeddings import OpenAIEmbeddings
 import chromadb
 import os
 import openai
+from dotenv import load_dotenv
+load_dotenv()
 
 
 class VectorStore:
 
-    openai.api_key = os.environ["OPENAI_API_KEY"]
+    openai.api_key = os.getenv("OPENAI_API_KEY")
 
     embedding = OpenAIEmbeddings()
     llm = OpenAI(temperature=0)
