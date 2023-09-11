@@ -6,18 +6,6 @@ from langchain.chat_models import ChatOpenAI
 
 class RetrievalChain:
 
-    llm = ChatOpenAI(model_name='gpt-3.5-turbo', temperature=0)
-
-    #  create a custom template to control how the LLM responds to queries
-    template = """Use the following pieces of context to answer the question at the end.
-                If you don't know the answer say "Sorry, I am not sure I understand." 
-                If question is out of context, say "Sorry, this does not seem to be relevant to the data you uploaded".
-                Don't try to make up an answer. Keep the answer as concise as possible.
-                {context}
-                Question: {question}
-                Helpful Answer:"""
-    prompt = PromptTemplate.from_template(template)
-
     def __init__(self, vectordb) -> None:
         """Initialises the RetrievalQA chain with the vector db as the retriever
            and the custom prompt 
@@ -25,6 +13,18 @@ class RetrievalChain:
         Args:
             vectordb : the index created from the documents
         """
+
+        self.llm = ChatOpenAI(model_name='gpt-3.5-turbo', temperature=0)
+
+        #  create a custom template to control how the LLM responds to queries
+        self.template = """Use the following pieces of context to answer the question at the end.
+                    If you don't know the answer say "Sorry, I am not sure I understand." 
+                    If question is out of context, say "Sorry, this does not seem to be relevant to the data you uploaded".
+                    Don't try to make up an answer. Keep the answer as concise as possible.
+                    {context}
+                    Question: {question}
+                    Helpful Answer:"""
+        self.prompt = PromptTemplate.from_template(self.template)
         self.retrieval_qa_chain = RetrievalQA.from_chain_type(
             self.llm,
             retriever=vectordb.as_retriever(),
@@ -52,14 +52,6 @@ class RetrievalChain:
     
 class ConversationalRetrievalQAChain:
 
-    llm = ChatOpenAI(model_name='gpt-3.5-turbo', temperature=0)
-
-    # initialise a conversation buffer memory to keep track of the chat
-    memory = ConversationBufferMemory(
-        memory_key="chat_history",
-        return_messages=True,
-        output_key="answer"
-        )
 
     def __init__(self, vectordb) -> None:
         """Initialises the RetrievalQA chain with the vector db as the retriever
@@ -68,6 +60,14 @@ class ConversationalRetrievalQAChain:
         Args:
             vectordb : the index created from the documents
         """
+        self.llm = ChatOpenAI(model_name='gpt-3.5-turbo', temperature=0)
+
+        # initialise a conversation buffer memory to keep track of the chat
+        self.memory = ConversationBufferMemory(
+            memory_key="chat_history",
+            return_messages=True,
+            output_key="answer"
+            )
 
         template = (
             """Use the following pieces of context to answer the question at the end.
